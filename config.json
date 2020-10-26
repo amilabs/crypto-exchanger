@@ -1,0 +1,28 @@
+{
+  "monitor": {
+    "key": "everex.key",
+    "network": "kovan",
+    "tmpFile": "monitor.tmp"
+  },
+  "coldAddress": {
+    "address": "0x055d8Fb53cB55330892B0D1a0f49E41B9727e38e",
+    "privateKey": "..."
+  },
+  "port": 3000,
+  "blockchain": {
+    "networkUrl": "https://kovan.infura.io/v3/...",
+    "gasLimit": 21000,
+    "gasRefund": 0
+  },
+  "rates": [
+    {"from": "0xfab46e002bbf0b4509813474841e0716e6730136",
+      "to": "0xfab46e002bbf0b4509813474841e0716e6730136",
+      "rate": 0.7237237},
+    {"from": "0xfab46e002bbf0b4509813474841e0716e6730136",
+      "to": "0x84dd11eb2a29615303d18149c0dbfa24167f8966",
+      "rate": 0.1454545},
+    {"from": "0x0000000000000000000000000000000000000000",
+      "to": "0x84dd11eb2a29615303d18149c0dbfa24167f8966",
+      "rate": 0.1454545}
+  ]
+}
