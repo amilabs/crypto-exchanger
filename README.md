@@ -1,6 +1,6 @@
 # Exchnage example
 
-This is a guide how to implement easy ERC20 coins and Ethereum exchange with client for the Bulk API Monitor. 
+This is a guide how to implement easy ERC20 coins and Ethereum exchange with the client for the Bulk API Monitor. 
 
 ## Steps
 
@@ -90,7 +90,7 @@ So, now we can notify admin that tokens or ETH was sent to your cold address and
 notifyAdmin();
 ```
 
-Finally our code should looks like
+### Final code
 ```sh
 const {MonitorApp} = require('@timophey01/eth-bulk-monitor-client-nodejs');
 const monitorApp = new MonitorApp("apiKey");
@@ -151,3 +151,5 @@ function notifyAdmin(){
 ```
 
 
+### Real working example 
+Full real working example of a crypto exchnage service can be found here: [link](https://github.com/amilabs/crypto-exchange)
