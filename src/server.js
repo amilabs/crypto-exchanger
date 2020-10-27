@@ -6,6 +6,7 @@ const Blockchain = require('./blockchain');
 const Storage = require('./storage');
 const Logger = require('./logger').logger;
 const config = require('../config.json');
+const Rates = require('./rates');
 let watchingAddresses = []; //inmemory storage of watching information
 const monitorApp = new MonitorApp(config.monitor.key, {
     network: config.monitor.network,
@@ -14,36 +15,45 @@ const monitorApp = new MonitorApp(config.monitor.key, {
 
 /* Start of the watching for a new address.
  */
+
+
+function formatWatchingData(watchingData){
+    watchingData.address = watchingData.address.toLowerCase();
+    watchingData.data.to =  watchingData.data.to.toLowerCase();
+    watchingData.data.from =  watchingData.data.from.toLowerCase();
+    if (watchingData.data.contract) watchingData.data.contract= watchingData.data.contract.toLowerCase();
+    return watchingData;
+}
+
 function watch() {
     if (watchingAddresses.length>0) monitorApp.watch([
             watchingAddresses.map(x=>x.address),
         ],
         async (data) => {
-            const index = watchingAddresses.findIndex(watchingAddress => watchingAddress.address === data.address.toLowerCase());
+            const watchingData = formatWatchingData(data);
+            const index = watchingAddresses.findIndex(watchingAddress => watchingAddress.address === watchingData.address);
             const watchingAddress = watchingAddresses[index];
-            if (index !== -1 && data.data.to.toLowerCase() === data.address.toLowerCase()) {
-                Logger.info(`Received new data for the address ${data.address}: ${JSON.stringify(data.data)}`);
-                if (data.data.contract) {
-                    if (config.rates.find(rate => rate.to.toLowerCase() === watchingAddress.changeTo &&
-                        rate.from.toLowerCase() === data.data.contract.toLowerCase())) {
+            if (index !== -1 && watchingData.data.to === watchingData.address) {
+                Logger.info(`Received new data for the address ${watchingData.address}: ${JSON.stringify(watchingData.data)}`);
+                if (watchingData.data.contract) {
+                    if (Rates.getRate(watchingAddress.changeTo,watchingData.data.contract)) {
                         watchingAddresses.splice(index, 1);
                         watch();
-                        return Blockchain.depositAddressWithGas(watchingAddress, data.data);
+                        return Blockchain.depositAddressWithGas(watchingAddress, watchingData.data);
                     } else {
-                        Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(data.data)}`);
+                        Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(watchingData.data)}`);
                     }
                 } else {
-                    if (await Blockchain.isValueGreaterThanGasFee(data.data.value)) {
-                        if (config.rates.find(rate => rate.to.toLowerCase() === watchingAddress.changeTo &&
-                            rate.from.toLowerCase() === '0x0000000000000000000000000000000000000000')) {
+                    if (await Blockchain.isValueGreaterThanGasFee(watchingData.data.value)) {
+                        if (Rates.getRate(watchingAddress.changeTo,'0x0000000000000000000000000000000000000000')) {
                             watchingAddresses.splice(index, 1);
                             watch();
-                            return Blockchain.sendEthToTheColdAddress(watchingAddress, data.data);
+                            return Blockchain.sendEthToTheColdAddress(watchingAddress, watchingData.data);
                         } else {
-                            Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(data.data)}`);
+                            Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(watchingData.data)}`);
                         }
                     } else {
-                        Logger.info(`Transaction value ${JSON.stringify(data.data.value)} less than current gas fee`);
+                        Logger.info(`Transaction value ${JSON.stringify(watchingData.data.value)} less than current gas fee`);
                     }
                 }
             }
@@ -52,6 +62,7 @@ function watch() {
 }
 
 watchingAddresses = Storage.loadWatchingAddresses();
+watch();
 const app = express().use(bodyParser.json());
 
 app.get('/watchingAddresses', (req, res) => {
@@ -65,7 +76,7 @@ app.delete('/clearWatchingAddresses', (req, res) => {
 });
 
 app.delete('/watchingAddresses/:address',[
-        param('address').exists().isEthereumAddress().bail().custom(address => {
+        param('address').isEthereumAddress().bail().custom(address => {
             if (!watchingAddresses.map(watchingAddress => watchingAddress.address).includes(address.toLowerCase())) {
                 return Promise.reject(`Address ${address} is not watching`);
             } else {
