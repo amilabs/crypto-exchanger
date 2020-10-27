@@ -5,15 +5,16 @@
     "tmpFile": "monitor.tmp"
   },
   "coldAddress": {
-    "address": "0x055d8Fb53cB55330892B0D1a0f49E41B9727e38e",
+    "address": "0xf707924218091A7434f0e4a2d802a9f59236F454",
     "privateKey": "..."
   },
   "port": 3000,
   "blockchain": {
-    "networkUrl": "https://kovan.infura.io/v3/...",
+    "networkUrl": "...",
     "gasLimit": 21000,
     "gasRefund": 0
   },
+  "storageFile": "storage.json",
   "rates": [
     {"from": "0xfab46e002bbf0b4509813474841e0716e6730136",
       "to": "0xfab46e002bbf0b4509813474841e0716e6730136",

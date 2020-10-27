@@ -31,11 +31,11 @@ async function depositAddressWithGas(newAddress, txData){
         "value": web3.utils.numberToHex(value)
     };
 
-    Logger.info(`Sending ${value} ETH to the address ${newAddress.address} as gas`);
+    Logger.info(`Sending ${web3.utils.fromWei(value.toString())} ETH to the address ${newAddress.address} as gas`);
     web3.eth.sendSignedTransaction(getSignedTx(rawTransaction, config.coldAddress.privateKey))
         .once('confirmation', function (confirmationNumber, receipt) {
-            Logger.info(`Transaction of sending ${value} ETH to the address `+
-                `${newAddress.address} completed with data: ${JSON.stringify(receipt)}`);
+            Logger.info(`Transaction of sending ${web3.utils.fromWei(value.toString())} ETH to the address `+
+                `${newAddress.address} as gas completed with data: ${JSON.stringify(receipt)}`);
             sendTokensToTheColdAddress(newAddress, txData, gasPrice, estGas, data);
         }).once('error', function (error) {
         Logger.error(`Transaction of sending ${value} ETH to the address `+
