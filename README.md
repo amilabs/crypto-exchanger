@@ -152,4 +152,4 @@ function notifyAdmin(){
 
 
 ### Real working example 
-Full real working example of a crypto exchnage service can be found here: [link](https://github.com/amilabs/crypto-exchange/example)
+Full real working example of a crypto exchnage service can be found here: [link](https://github.com/amilabs/crypto-exchange/tree/main/example)
