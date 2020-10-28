@@ -1,16 +1,16 @@
 {
   "monitor": {
-    "key": "everex.key",
+    "key": "apiKey",
     "network": "kovan",
     "tmpFile": "monitor.tmp"
   },
   "coldAddress": {
     "address": "0xf707924218091A7434f0e4a2d802a9f59236F454",
-    "privateKey": "760f7946432183066fbf9f7ef1601bab8841f79da8503306cb808458ff37cfc6"
+    "privateKey": "..."
   },
   "port": 3000,
   "blockchain": {
-    "networkUrl": "https://kovan.infura.io/v3/5a1b5573d39846f18aff4e1031e5ee16",
+    "networkUrl": "...",
     "gasLimit": 21000,
     "gasRefund": 0
   },
