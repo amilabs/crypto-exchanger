@@ -16,7 +16,7 @@ After receiving funds we will notify an admin that funds received, and he/she ab
 
 ```sh
 $ git clone git@github.com:amilabs/crypto-exchange.git
-$ cd crypto-exchange
+$ cd crypto-exchange/example
 $ npm i
 $ npm run-script start
 ```
