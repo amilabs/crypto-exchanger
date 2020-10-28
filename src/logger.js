@@ -1,4 +1,8 @@
-const { createLogger, format, transports,  } = require('winston');
+const {createLogger, format, transports,} = require('winston');
+/**
+ * Main logger for the service. You can add any logic here or change logging with simple console.log().
+ * @type {winston.Logger}
+ */
 const logger = createLogger({
     format: format.combine(
         format.timestamp(),
@@ -11,6 +15,6 @@ const logger = createLogger({
     ]
 });
 
-module.exports ={
+module.exports = {
     logger
 }
