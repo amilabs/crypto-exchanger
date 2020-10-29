@@ -1,6 +1,6 @@
-# Exchnage example
+# Exchange example
 
-This is a guide how to implement easy ERC20 coins and Ethereum exchange with the client for the Bulk API Monitor. 
+This is a guide on how to implement easy ERC20 coins and Ethereum exchange with the client for the Bulk API Monitor. 
 
 ## Steps
 
@@ -9,7 +9,7 @@ This is a guide how to implement easy ERC20 coins and Ethereum exchange with the
   - Sending tokens to your cold address with filling address by the current gas price.
   - Sending ETH funds to your cold address
   - Stop watching for address
-  - Notify administrator that funds was received
+  - Notify the administrator that funds were received
 
 ### Installation
 
@@ -79,12 +79,12 @@ In the case of receiving ETH we can send it to your cold address directly.
 }
 ```
 
-Don't forget stop watching of a new address if will not work with it in a future.
+Don't forget to stop watching a new address if will not work with it in the future.
 ```sh
 monitorApp.unwatch();
 ```
 
-So, now we can notify admin that tokens or ETH was sent to your cold address and user able to receive expected funds regarding current exchange rates.
+So, now we can notify admin that tokens or ETH was sent to your cold address and the user able to receive expected funds regarding current exchange rates.
 
 ```sh
 notifyAdmin();
@@ -112,37 +112,37 @@ monitorApp.watch([
     });
 
 /*
-Function which returns ethereum address.
-This address should be send to a user for deposit tokens or Ethereum
+The function which returns ethereum address.
+This address should be sent to a user for deposit tokens or Ethereum
  */
 function createNewEthAddress(){
     // ...
 }
 
 /*
-Function which will deposit created address with gas.
-We need it for the sending received tokens from a user to the cold address of your exchange service.
+The function which will deposit the created address with gas.
+We need it for sending received tokens from a user to the cold address of your exchange service.
  */
 function depositNewAddressWithGas(){
     // ...
 }
 
 /*
-Function which will send tokens from the created address to the cold address of your exchange service.
+The function which will send tokens from the created address to the cold address of your exchange service.
  */
 function sendTokensFromNewAddressToTheColdAddress(){
     // ...
 }
 
 /*
-Function which will send received ETH from a user to the cold address of your exchange service.
+The function which will send received ETH from a user to the cold address of your exchange service.
  */
 function sendEthToTheColdAddress(){
     // ...
 }
 
 /*
-Function for notifying administrator of your exchange service that tokens or ETH received on your cold address.
+Function for notifying the administrator of your exchange service that tokens or ETH received on your cold address.
 Now administrator able to send user expected resources regarding current exchange rate.
  */
 function notifyAdmin(){
@@ -152,4 +152,4 @@ function notifyAdmin(){
 
 
 ### Real working example 
-Full real working example of a crypto exchnage service can be found here: [link](https://github.com/amilabs/crypto-exchange/tree/main/example)
+A full real working example of a crypto exchange service can be found here: [link](https://github.com/amilabs/crypto-exchange/tree/main/example)
