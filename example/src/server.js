@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {body, validationResult, param} = require('express-validator');
+const swaggerUi = require('swagger-ui-express');
 const {MonitorApp} = require('@timophey01/eth-bulk-monitor-client-nodejs');
 const Blockchain = require('./blockchain');
 const Storage = require('./storage');
 const Logger = require('./logger').logger;
 const config = require('../config.json');
 const Rates = require('./rates');
+const swaggerDocument = require('./docs/openapi.json');
 let watchingAddresses = []; //inmemory storage of watching information
 const monitorApp = new MonitorApp(config.monitor.key, {
     network: config.monitor.network,
@@ -17,6 +19,15 @@ watchingAddresses = Storage.loadWatchingAddresses(); //loading stored watching a
 watch(); //start watching for addresses from watching
 
 const app = express().use(bodyParser.json());
+app.use('/docs', function(req, res, next){
+    swaggerDocument.servers[0].url=req.protocol+"://"+req.get('host');
+    req.swaggerDoc = swaggerDocument;
+    next();
+}, swaggerUi.serve, swaggerUi.setup());
+
+app.get('/', function(req, res) {
+    res.redirect('/docs');
+});
 
 /**
  * Api method for displaying all active watching addresses.

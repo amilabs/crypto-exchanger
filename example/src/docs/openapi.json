@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "This is an example of a real working example of a crypto exchange service implemented with Bulk API Monitor. ",
+    "version": "1.0.0",
+    "title": "Exchange real working example"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/exchange": {
+      "post": {
+        "tags": [
+          "exchange"
+        ],
+        "summary": "Endpoint for creating new exchange address",
+        "description": "",
+        "requestBody": {
+          "description": "Provide the address of token for which user should receive",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "changeTo"
+                ],
+                "properties": {
+                  "changeTo": {
+                    "type": "string",
+                    "example": "0x84dd11eb2a29615303d18149c0dbfa24167f8966"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Exchange request has been created successfully"
+          },
+          "400": {
+            "description": "Invalid changeTo address"
+          }
+        }
+      }
+    },
+    "/watchingAddresses": {
+      "get": {
+        "tags": [
+          "Watching Addresses"
+        ],
+        "summary": "Get the list of currently watching addresses",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "List of watching addresses"
+          }
+        }
+      }
+    },
+    "/watchingAddresses/{address}": {
+      "delete": {
+        "tags": [
+          "Watching Addresses"
+        ],
+        "summary": "Delete address from watching",
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "Address information",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address deleted from the watching"
+          },
+          "400": {
+            "description": "Invalid watching address"
+          }
+        }
+      }
+    },
+    "/clearWatchingAddresses": {
+      "post": {
+        "tags": [
+          "Watching Addresses"
+        ],
+        "summary": "Unwatch all addresses",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "All addresses has been unwatched successfully"
+          }
+        }
+      }
+    }
+  }
+}
