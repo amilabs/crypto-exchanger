@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@timophey01/eth-bulk-monitor-client-nodejs": "0.0.25",
     "body-parser": "1.19.0",
+    "eth-bulk-monitor-client-nodejs": "0.0.11",
     "ethereumjs-tx": "2.1.2",
     "express": "4.17.1",
     "express-validator": "6.6.1",
