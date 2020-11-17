@@ -33,27 +33,26 @@ Initialization of new MonitorApp object with your api key:
 const monitorApp = new MonitorApp("apiKey");
 ```
 
+Starting of the watching process and signing for new operations and transactions:
+```sh
+monitorApp.watch((data) => {
+        ...
+    });
+```
+
 Creating a new ethereum address(easy to do with web3 library):
 ```sh
 const newEthAddress = createNewEthAddress();
 ```
 
-After providing new address to a user you should sign for transactions and operation for this address:
+Adding new address to the watching:
 ```sh
-monitorApp.watch([
-        newEthAddress,
-    ],
-    (data) => {
-        ...
-    });
+monitorApp.monitor.addAddresses(newEthAddress);
 ```
 
 After the receiving callback from the watch function we should understand is it token transfer or ETH transaction:
 ```sh
-monitorApp.watch([
-        newEthAddress,
-    ],
-    async (data) => {
+monitorApp.watch((data) => {
         if (data.data.contract){
             // Here should be logic for a token transfer
             ...
@@ -79,7 +78,12 @@ In the case of receiving ETH we can send it to your cold address directly.
 }
 ```
 
-Don't forget to stop watching a new address if will not work with it in the future.
+Don't forget to remove address from the watching if will not work with it in the future.
+```sh
+monitorApp.monitor.removeAddress(newEthAddress);
+```
+
+Call unwatch function if you want to stop watching process.
 ```sh
 monitorApp.unwatch();
 ```
@@ -95,21 +99,19 @@ notifyAdmin();
 const {MonitorApp} = require('@timophey01/eth-bulk-monitor-client-nodejs');
 const monitorApp = new MonitorApp("apiKey");
 
-const newEthAddress = createNewEthAddress();
-
-monitorApp.watch([
-        newEthAddress,
-    ],
-    async (data) => {
+monitorApp.watch((data) => {
         if (data.data.contract){
             depositNewAddressWithGas();
             sendTokensFromNewAddressToTheColdAddress();
         }else{
             sendEthToTheColdAddress();
         }
+        monitorApp.monitor.removeAddresses(newEthAddress);
         monitorApp.unwatch();
         notifyAdmin();
     });
+const newEthAddress = createNewEthAddress();
+monitorApp.monitor.addAddresses(newEthAddress);
 
 /*
 The function which returns ethereum address.
