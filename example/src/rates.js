@@ -2,7 +2,7 @@ const config = require('../config.json');
 
 /**
  * Simple function for getting rates from the config file. You can implement any complex logic here.
- * Also you can add support of limits or any other logic relative to your exchange.
+ * Also you can add support of limits or any other logic relative to your exchanger.
  * @param to - ETH address for the token or 0x0000000000000000000000000000000000000000 for Ethereum for changing to
  * @param from - ETH address for the token or 0x0000000000000000000000000000000000000000 for Ethereum for changing from
  * @returns {*|number|bigint} - rate from the config

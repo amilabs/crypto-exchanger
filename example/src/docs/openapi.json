@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "description": "This is an example of a real working example of a crypto exchange service implemented with Bulk API Monitor. ",
+    "description": "This is an example of a real working example of a crypto exchanger service implemented with Bulk API Monitor. ",
     "version": "1.0.0",
-    "title": "Exchange real working example"
+    "title": "Exchanger real working example"
   },
   "servers": [
     {

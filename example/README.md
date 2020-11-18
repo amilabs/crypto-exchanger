@@ -1,10 +1,10 @@
 # Exchange real working example
 
-This is an example of a real working example of a crypto exchange service implemented with Bulk API Monitor. 
+This is an example of a real working example of a crypto exchanger service implemented with Bulk API Monitor. 
 
-## What this exchange doing
+## What this exchanger doing
 
-This exchange service can create a new ethereum address, then you can provide this address to a user.
+This exchanger service can create a new ethereum address, then you can provide this address to a user.
 Users can send some tokens or ETH to this address.
 With help of the Bulk API Monitor library, we can receive information about this incoming transaction. 
 In case of incoming funds are supports for the change in the config we start the process for sending funds to the cold address.
@@ -15,8 +15,8 @@ After receiving funds we will notify an admin that funds received, and he/she ab
 ### How to start
 
 ```sh
-$ git clone git@github.com:amilabs/crypto-exchange.git
-$ cd crypto-exchange/example
+$ git clone git@github.com:amilabs/crypto-exchanger.git
+$ cd crypto-exchanger/example
 $ npm i
 $ npm run-script start
 ```
