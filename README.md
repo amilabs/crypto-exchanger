@@ -8,8 +8,8 @@ This is a guide on how to implement easy ERC20 coins and Ethereum exchanger base
   - Watching this address for new ETH transactions of ERC20 transfers
   - Sending tokens to your cold address with filling address by the current gas price.
   - Sending ETH funds to your cold address
-  - Stop watching for address
-  - Notify the administrator that funds were received
+  - Stoping watching for the address
+  - Notifying an administrator that funds were received
 
 ### Installation
 
