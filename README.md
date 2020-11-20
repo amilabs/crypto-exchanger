@@ -49,6 +49,7 @@ Adding new address to the watching:
 ```sh
 monitorApp.monitor.addAddresses(newEthAddress);
 ```
+Preparation is complete, from now we will get all transactions related to our address.
 
 After the receiving callback from the watch function we should understand is it token transfer or ETH transaction:
 ```sh
@@ -96,7 +97,7 @@ notifyAdmin();
 
 ### Final code
 ```sh
-const {MonitorApp} = require('@timophey01/eth-bulk-monitor-client-nodejs');
+const {MonitorApp} = require('eth-bulk-monitor-client-nodejs');
 const monitorApp = new MonitorApp("apiKey");
 
 monitorApp.watch((data) => {
