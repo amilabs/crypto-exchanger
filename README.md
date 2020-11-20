@@ -1,6 +1,6 @@
 # Crypto exchanger example
 
-This is a guide on how to implement easy ERC20 coins and Ethereum exchanger with the client for the Bulk API Monitor. 
+This is a guide on how to implement easy ERC20 coins and Ethereum exchanger based on **[nodeJS client](https://github.com/amilabs/eth-bulk-monitor-client-nodejs)** for the **[Ethplorer Bulk API Monitor](https://docs.ethplorer.io/monitor)**.
 
 ## Steps
 
