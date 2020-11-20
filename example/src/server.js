@@ -43,9 +43,10 @@ app.get('/watchingAddresses', (req, res) => {
  * You can lose all you data calking this api method.
  * DON'T USE IT IN PRODUCTION WITHOUT ANY AUTH
  */
-app.delete('/clearWatchingAddresses', (req, res) => {
+app.post('/clearWatchingAddresses', (req, res) => {
     watchingAddresses = [];
-    watch();
+    monitorApp.monitor.removeAllAddresses();
+    Storage.saveWatchingAddresses(watchingAddresses);
     res.status(200).json({watchingAddresses});
 });
 
@@ -68,10 +69,7 @@ app.delete('/watchingAddresses/:address', [
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
-    const index = watchingAddresses.findIndex(watchingAddress =>
-        watchingAddress.address === req.params.address.toLowerCase());
-    watchingAddresses.splice(index, 1);
-    watch();
+    removeAddressFromWatching(req.params.address.toLowerCase());
     res.status(200).json({watchingAddresses});
 });
 
@@ -97,8 +95,7 @@ app.post('/exchange',
         let newAddress = await Blockchain.createNewAddress();
         newAddress.changeTo = req.body.changeTo.toLowerCase();
         Logger.info(`New address for changing to ${req.body.changeTo}: ${newAddress.address}`);
-        watchingAddresses.push(newAddress);
-        watch();
+        addAddressToWatching(newAddress)
         res.status(200).json({address: newAddress.address});
     });
 
@@ -117,20 +114,37 @@ function formatWatchingData(watchingData) {
     return watchingData;
 }
 
+/**
+ * Function to add new watchingAddress to the watching
+ * @param watchingAddress - object of the address for adding to the watching
+ */
+function addAddressToWatching(watchingAddress){
+    watchingAddresses.push(watchingAddress)
+    monitorApp.monitor.addAddresses([watchingAddress.address]);
+    Storage.saveWatchingAddresses(watchingAddresses);
+}
+
+/**
+ * Function to remove address from watching
+ * @param address - ethereum address for removing from watching
+ */
+function removeAddressFromWatching(address){
+    watchingAddresses.splice(watchingAddresses.indexOf(address), 1);
+    monitorApp.monitor.removeAddresses([address]);
+    Storage.saveWatchingAddresses(watchingAddresses);
+}
+
 function watch() {
-    if (watchingAddresses.length > 0) monitorApp.watch([
-            watchingAddresses.map(x => x.address),
-        ],
+    monitorApp.watch(
         async (data) => {
             const watchingData = formatWatchingData(data);
             const index = watchingAddresses.findIndex(watchingAddress => watchingAddress.address === watchingData.address);
             const watchingAddress = watchingAddresses[index];
-            if (index !== -1 && watchingData.data.to === watchingData.address) {
+            if (index !== -1 && watchingAddress && watchingData.data.to === watchingData.address) {
                 Logger.info(`Received new data for the address ${watchingData.address}: ${JSON.stringify(watchingData.data)}`);
                 if (watchingData.data.contract) {
                     if (Rates.getRate(watchingAddress.changeTo, watchingData.data.contract)) {
-                        watchingAddresses.splice(index, 1);
-                        watch();
+                        removeAddressFromWatching(watchingAddress.address);
                         return Blockchain.depositAddressWithGas(watchingAddress, watchingData.data);
                     } else {
                         Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(watchingData.data)}`);
@@ -138,8 +152,7 @@ function watch() {
                 } else {
                     if (await Blockchain.isValueGreaterThanGasFee(watchingData.data.value)) {
                         if (Rates.getRate(watchingAddress.changeTo, '0x0000000000000000000000000000000000000000')) {
-                            watchingAddresses.splice(index, 1);
-                            watch();
+                            removeAddressFromWatching(watchingAddress.address);
                             return Blockchain.sendEthToTheColdAddress(watchingAddress, watchingData.data);
                         } else {
                             Logger.info(`Received not supported tokens for exchange: ${JSON.stringify(watchingData.data)}`);
@@ -148,7 +161,9 @@ function watch() {
                         Logger.info(`Transaction value ${JSON.stringify(watchingData.data.value)} less than current gas fee`);
                     }
                 }
+            }else{
+                Logger.info(`Received new data for the address ${watchingData.address},`+
+                 `but this address not present at the watching addresses: ${JSON.stringify(watchingData.data)}`);
             }
         });
-    Storage.saveWatchingAddresses(watchingAddresses);
 }
