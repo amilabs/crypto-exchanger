@@ -4,7 +4,7 @@ This is a guide on how to implement easy ERC20 coins and Ethereum exchanger with
 
 ## Steps
 
-  - Creating new eth address and sending it to a user
+  - Creating a new eth address and sending it to a user
   - Watching this address for new ETH transactions of ERC20 transfers
   - Sending tokens to your cold address with filling address by the current gas price.
   - Sending ETH funds to your cold address
