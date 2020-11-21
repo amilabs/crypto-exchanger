@@ -154,5 +154,5 @@ function notifyAdmin(){
 ```
 
 
-### Working example 
+## Full version
 A full example of a crypto exchanger service can be found here: [link](https://github.com/amilabs/crypto-exchanger/tree/main/example)
