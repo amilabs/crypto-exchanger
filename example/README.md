@@ -1,4 +1,4 @@
-# Exchange example
+# Exchanger example
 
 This is an example a crypto exchanger service implemented with Bulk API Monitor. 
 
