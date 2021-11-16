@@ -14,7 +14,7 @@ This is a guide on how to implement easy ERC20 coins and Ethereum exchanger base
 ### Installation
 
 ```sh
-$ mkdir exchnager 
+$ mkdir exchanger 
 $ cd exchanger
 $ npm init
 $ npm i --save eth-bulk-monitor-client-nodejs
