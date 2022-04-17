@@ -1,6 +1,6 @@
-# Exchange real working example
+# Exchanger example
 
-This is an example of a real working example of a crypto exchanger service implemented with Bulk API Monitor. 
+This is an example a crypto exchanger service implemented with Bulk API Monitor. 
 
 ## What this exchanger doing
 

@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "1.19.0",
-    "eth-bulk-monitor-client-nodejs": "0.0.11",
+    "eth-bulk-monitor-client-nodejs": "0.0.14",
     "ethereumjs-tx": "2.1.2",
     "express": "4.17.1",
     "express-validator": "6.6.1",

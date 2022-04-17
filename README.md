@@ -1,15 +1,15 @@
 # Crypto exchanger example
 
-This is a guide on how to implement easy ERC20 coins and Ethereum exchanger with the client for the Bulk API Monitor. 
+This is a guide on how to implement easy ERC20 coins and Ethereum exchanger based on **[nodeJS client](https://github.com/amilabs/eth-bulk-monitor-client-nodejs)** for the **[Ethplorer Bulk API Monitor](https://docs.ethplorer.io/monitor)**.
 
 ## Steps
 
-  - Creating new eth address and sending it to a user
+  - Creating a new eth address and sending it to a user
   - Watching this address for new ETH transactions of ERC20 transfers
   - Sending tokens to your cold address with filling address by the current gas price.
   - Sending ETH funds to your cold address
-  - Stop watching for address
-  - Notify the administrator that funds were received
+  - Stoping watching for the address
+  - Notifying an administrator that funds were received
 
 ### Installation
 
@@ -49,6 +49,7 @@ Adding new address to the watching:
 ```sh
 monitorApp.monitor.addAddresses(newEthAddress);
 ```
+Preparation is complete, from now we will get all transactions related to our address.
 
 After the receiving callback from the watch function we should understand is it token transfer or ETH transaction:
 ```sh
@@ -96,7 +97,7 @@ notifyAdmin();
 
 ### Final code
 ```sh
-const {MonitorApp} = require('@timophey01/eth-bulk-monitor-client-nodejs');
+const {MonitorApp} = require('eth-bulk-monitor-client-nodejs');
 const monitorApp = new MonitorApp("apiKey");
 
 monitorApp.watch((data) => {
@@ -153,5 +154,5 @@ function notifyAdmin(){
 ```
 
 
-### Working example 
+## Full version
 A full example of a crypto exchanger service can be found here: [link](https://github.com/amilabs/crypto-exchanger/tree/main/example)
